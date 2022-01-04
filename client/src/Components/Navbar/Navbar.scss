@@ -1,0 +1,107 @@
+
+.navbar {    
+    height: 80px;    
+    width: 100%;    
+    padding: 0 60px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: absolute!important;
+    top: 0;
+    left: 0;        
+
+    .navbar__logo {
+        height: 60px;
+
+        img {
+            height: 100%;
+            width: 100%;
+        }
+    }
+
+    .navbar__links {     
+        @media(max-width: 1040px) {
+            display: none;
+        }   
+        .link {
+            text-decoration: none;
+            color: #000;
+            font-weight: 600;
+            margin: 0 25px;
+            transition: all ease .3s;
+
+            &:hover {
+                color: #FFF;
+                transition: all ease .3s;
+            }
+        }
+    }
+
+    .navbar__action {
+        @media(max-width: 1040px) {
+            display: none;
+        }        
+    }
+
+    .action {
+        border-radius: 5px;                        
+        text-decoration: none;
+        color: #FFF;
+    }
+
+    .loginBtn {
+        padding: 10px 30px;
+        background-color: #FF7A00;
+        margin: 0 10px;
+    }
+
+    .appointementBtn  {
+        padding: 10px 30px;
+        background-color: #264ECA;
+        margin: 0 10px;
+    }
+
+    .menuIcon {
+        display: none;
+        cursor: pointer;
+        @media(max-width: 1040px) {
+            display: block;                        
+        }
+    }
+
+    .navbar__menu {                
+        position: absolute;
+        top: 0;
+        right: 0;
+        cursor: pointer;         
+        width: 100%;
+        background-color: #FFF;
+        height: 100vh;        
+        
+        .closeIcon {
+            right: 15px;
+            top: 15px;
+            position: absolute;            
+        }
+
+        .menu__links {
+            display: flex;
+            flex-direction: column;
+            text-align: center;
+
+            .link {
+                padding: 1rem 0;
+                color: #000;
+                text-decoration: none;
+                font-size: 1.4rem;
+                font-weight: 600;
+            }
+        }
+
+        .menu__action {
+            display: flex;
+            justify-content: center;
+            margin: 3rem 0;
+        }
+    }
+}
