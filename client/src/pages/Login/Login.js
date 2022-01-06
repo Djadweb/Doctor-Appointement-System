@@ -11,6 +11,10 @@ function Login() {
         Axios.post("http://localhost:3001/checkUser", {
             email: email,
             password: password
+        }).then((response) => {
+            if(response.data === "logged") {
+                window.location = ("http://localhost:3000/")
+            }
         })
     }
 

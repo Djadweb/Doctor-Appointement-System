@@ -51,18 +51,17 @@ app.post('/checkUser', (req, res) => {
     let email = req.body.email;
     let password = req.body.password;    
     
-    //Create new patient account
+    //Check if user exists
     conn.query(                
-        `SELECT * FROM users WHERE email='${email}'`,
+        `SELECT * FROM users WHERE email="${email}"`,
         (err, results) => {
             if(err) {
                 console.log(err);
             }
 
-            if(results.length > 0) {                                
+            if(results.length > 0) {
                 if(results[0].password === password) {
-                    console.log("Logged In")
-                    res.redirect('http://localhost:3000/patient');
+                    res.send("logged")
                 } else {                    
                     console.log("Wrong password")                    
                 }
