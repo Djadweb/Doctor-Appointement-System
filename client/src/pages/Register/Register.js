@@ -11,7 +11,12 @@ function Register() {
         Axios.post("http://localhost:3001/create", {
             email: email,
             password: password
-        }).then(window.location="/")
+        }).then((response) => {
+            console.log(response);
+            if(response.data === "created") {
+                window.location="/login"
+            }            
+        })
     }
 
     return (

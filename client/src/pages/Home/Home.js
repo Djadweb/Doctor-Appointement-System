@@ -1,9 +1,18 @@
-import React from 'react'
+import React, {useEffect, useState} from 'react'
 import './Home.scss'
 import illustration from '../../assets/images/doctor-illustration.png'
 import { Link } from 'react-router-dom'
+import Axios from 'axios'
 
 function Home() {
+    const [loginStatus, setLoginStatus] = useState(false);    
+
+    useEffect(() => {
+        Axios.get("http://localhost:3001/login").then((response) => {
+            setLoginStatus(response.data.loggedIn);
+            console.log(response)
+        })
+    }, [])
     return (
         <div className="home">
             <div className="custom-shape-divider-bottom-1638028037">

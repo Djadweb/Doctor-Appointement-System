@@ -5,6 +5,9 @@ const cors = require('cors')
 const mysql = require('mysql')
 const dotenv = require('dotenv')
 
+const session = require("express-session")
+const cookieParser = require("cookie-parser")
+
 dotenv.config({ path: './.env' })
 
 const conn = mysql.createConnection({
@@ -25,6 +28,18 @@ conn.connect(err => {
 app.use(express.urlencoded({extended: false}))
 app.use(bodyparser.json())
 app.use(cors())
+app.use(cookieParser())
+
+app.use(session({
+    key: "userId",
+    secret: "signup",
+    resave: true, 
+    saveUninitialized: true,
+    cookie: {
+        expires: 60 * 60 * 24,
+        secure: false,
+    }
+}))
 
 app.get('/', (req, res) => {
     res.json({welcome: "welcome from the server"})
@@ -42,12 +57,12 @@ app.post('/create', (req, res) => {
             if(err) {
                 console.log(err);
             } else {
-                res.send(result);
+                res.send("created");                
             }
         });        
 })
 
-app.post('/checkUser', (req, res) => {
+app.post('/login', (req, res) => {
     let email = req.body.email;
     let password = req.body.password;    
     
@@ -60,13 +75,23 @@ app.post('/checkUser', (req, res) => {
             }
 
             if(results.length > 0) {
-                if(results[0].password === password) {
-                    res.send("logged")
+                if(results[0].password === password) {                                                        
+                    //Session                    
+                    let email = req.session.user = results[0].email;
+                    let type = req.session.type = results[0].type;                     
+                    //res.redirect('/dashboard');
+                    res.send({email, type})
                 } else {                    
                     console.log("Wrong password")                    
                 }
             }
         });        
+})
+
+app.get('/checkUser', (req, res) => {
+    if(req.session.user) {
+        res.send("isLoggedIn");
+    }
 })
 
 const port = 3001

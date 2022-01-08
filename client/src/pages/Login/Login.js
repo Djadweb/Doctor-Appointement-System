@@ -2,19 +2,25 @@ import React, { useState } from 'react'
 import 'bootstrap/dist/css/bootstrap.css'
 import './Login.scss'
 import Axios from 'axios'
+import { useNavigate } from 'react-router-dom';
+
 
 function Login() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [loginStatus, setLoginStatus] = useState(false);    
+    const navigate = useNavigate();
+
 
     const login = () => {
-        Axios.post("http://localhost:3001/checkUser", {
+        Axios.post("http://localhost:3001/login", {
             email: email,
             password: password
-        }).then((response) => {
-            if(response.data === "logged") {
-                window.location = ("http://localhost:3000/")
+        }).then((res) => {            
+            if(res.data.email && res.data.type === "patient") {
+                navigate('/dashboard');
             }
+            
         })
     }
 
