@@ -1,14 +1,13 @@
 import React, { useState } from 'react'
+import { useNavigate } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.css'
 import './Login.scss'
 import Axios from 'axios'
-import { useNavigate } from 'react-router-dom';
 
 
 function Login() {
     const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-    const [loginStatus, setLoginStatus] = useState(false);    
+    const [password, setPassword] = useState("");    
     const navigate = useNavigate();
 
 
@@ -16,11 +15,14 @@ function Login() {
         Axios.post("http://localhost:3001/login", {
             email: email,
             password: password
-        }).then((res) => {            
-            if(res.data.email && res.data.type === "patient") {
-                navigate('/dashboard');
-            }
-            
+        }).then((res) => {                                 
+            if(res.data.email) {
+                if(res.data.type === "patient") {
+                    navigate('/appointment');
+                } else {
+                    navigate('/dashboard')
+                }
+            }            
         })
     }
 

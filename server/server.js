@@ -75,11 +75,10 @@ app.post('/login', (req, res) => {
             }
 
             if(results.length > 0) {
-                if(results[0].password === password) {                                                        
+                if(results[0].password === password) {
                     //Session                    
-                    let email = req.session.user = results[0].email;
-                    let type = req.session.type = results[0].type;                     
-                    //res.redirect('/dashboard');
+                    let email = session.user = results[0].email;
+                    let type = session.type = results[0].type;                                                             
                     res.send({email, type})
                 } else {                    
                     console.log("Wrong password")                    
@@ -88,11 +87,16 @@ app.post('/login', (req, res) => {
         });        
 })
 
-app.get('/checkUser', (req, res) => {
-    if(req.session.user) {
-        res.send("isLoggedIn");
+app.get('/session', (req, res) => {
+    if(session.user) {
+        res.send("loggedIn");        
+    } else {
+        res.send("notLoggedIn");
     }
 })
+
+
+
 
 const port = 3001
 app.listen(port, () => console.log("Server running on PORT 3001"))

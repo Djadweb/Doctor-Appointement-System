@@ -5,14 +5,15 @@ import { Link } from 'react-router-dom'
 import Axios from 'axios'
 
 function Home() {
-    const [loginStatus, setLoginStatus] = useState(false);    
+    const [isloggedIn, setIsLoggedIn] = useState(false);
 
     useEffect(() => {
-        Axios.get("http://localhost:3001/login").then((response) => {
-            setLoginStatus(response.data.loggedIn);
-            console.log(response)
-        })
-    }, [])
+        Axios.get('http://localhost:3001/session').then((res) => {            
+            if(res.data === "loggedIn") {
+                setIsLoggedIn(true);
+            }                
+        })  
+    }, [isloggedIn])    
     return (
         <div className="home">
             <div className="custom-shape-divider-bottom-1638028037">
@@ -27,7 +28,12 @@ function Home() {
                 <div className="hero">
                     <p>It's quick, easy and free</p>
                     <h1>Book online your doctor</h1>
-                    <Link to="/register" className="signupBtn" variant="primary">Sign Up</Link>
+                    {!isloggedIn ? 
+                        <Link to="/register" className="signupBtn" variant="primary">Sign Up</Link>
+                        : 
+                        <Link to="/appointment" className="action appointementBtn">Start Now</Link>
+                    }
+                    
                 </div>
                 <div className="illustration">
                     <img src={illustration} alt="doctor" />
